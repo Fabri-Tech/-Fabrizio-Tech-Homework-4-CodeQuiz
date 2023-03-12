@@ -4,50 +4,44 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./Assets/style.css">
     <title>Document</title>
 </head>
 <body>
-    
-
-<h1>Coding Quiz Challenge</h1>
-<h2>Please note that each mistake will be penalized with 5 seconds</h2>
-<div class="container">
-
-    
-
-<button id="startbtn">Test your knowledge</button>
-<button id="highscoreTable">Highscores Table</button>
-
-
-<div id="questions"></div>
-<div id="forms"></div>
-
-<div id="score-container" class="inv">
-    <p id="score-display"></p>
-</div>
-
-<div id="score-page">
-    <ol id="scoreboard" class="inv"></ol>
-</div>
-
-<div id="initials"></div>
-
-
-<div id="test">
-    <div id="options" class="inv"></div>
-    <button id="optionA">A</button>
-    <button id="optionB">B</button>
-    <button id="optionC">C</button>
-    <button id="optionD">D</button>
-    <div id="score-container" class="inv">
-        <p id="score-display"></p>
+    <h1>Quiz</h1>
+    <p id="timer">Time remaining: 600 seconds</p>
+    <button id="startbtn">Start Quiz</button>
+    <div id="quizData" class="inv"></div>
+    <div id="optionsContainer" class="inv">
+        <p><button id="optionA" data-optionid="0"></button></p>
+        <p><button id="optionB" data-optionid="1"></button></p>
+        <p><button id="optionC" data-optionid="2"></button></p>
+        <p><button id="optionD" data-optionid="3"></button></p>
     </div>
-</div>
+    <div id="score-page" class="inv">
+        <p id="scoreboard"></p>
+        <p id="score"></p>
+        <p id="total-score"></p>
+    </div>
+    <table id="highscoreTable" class="inv">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Name</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <div id="end-quiz" class="inv">
+        <p>Congratulations! You have completed the quiz.</p>
+        <p>Your score is <span id="final-score"></span>.</p>
+        <button id="restart-btn">Restart Quiz</button>
+        <button id="exit-btn">Exit Quiz</button>
+    </div>
 
-</div><!-- div container  -->
 
-<script src="./app1.js"></script>
+<script src="./Assets/app.js"></script>
 
 </body>
 </html>

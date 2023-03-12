@@ -1,313 +1,234 @@
-            //contant letiables
-
-            const allArrays = [];
-            const startBtn = document.querySelector("#startbtn");
-            const questions = document.querySelector("#questions");
+            //contant variables
+          
             const highscoreTable = document.querySelector("#highscoreTable");
             const scorePage = document.querySelector("#score-page");
             const scoreboard = document.querySelector("#scoreboard");
             const currentScore = document.querySelector("#score");
-            const optionsContainerContainer = document.querySelector("#optionsContainer");
-            const optionA = document.querySelector("#optionA");
-            const optionB = document.querySelector("#optionB");
-            const optionC = document.querySelector("#optionC");
-            const optionD = document.querySelector("#optionD");
-            const totalScore = document.querySelector("#total-score");
 
-            // Quiz letiables
+            // Quiz variables
             let score = 0;
-            let counter = 0;
-            let timeLeft = 60;
-            let timerInterval;
+            let currentQuestion = 0;
 
 
-
-            // Quiz questions
-            const quizData = {
-            questions: [
-                "1. What does HTML stand for?",
-                "2. What is the correct way to apply CSS to an HTML element?",
-                "3. What is the purpose of the display property in CSS?",
-                "4. What is the correct syntax for a JavaScript function?",
-                "5. What is the correct way to select an element with the ID 'myDiv' in JavaScript?",
-                "6. What is the purpose of the for loop in JavaScript?",
-                "7. Which of the following is not a JavaScript data type?",
-                "8. How do you place a comment in JavaScript?",
-                "9. Which of the following is not a valid CSS selector?",
-                "10. What is the correct way to add a comment in HTML?"
-            ],
-            correctAnswers: [
-                "HyperText Markup Language",
-                "Using the <style> element or an external CSS file",
-                "To control how an element is displayed on the web page",
-                "function myFunction()",
-                "document.getElementById('myDiv')",
-                "To execute a block of code a set number of times",
-                "Picture",
-                "//",
-                "$myDiv",
-                "<!-- This is a comment -->"
-            ],
-            optionsContainer: [
-                ["<javascript>", "<style>", "To set the color of text", "function: myFunction()"],
-                ["<body>", "<link>", "To set the size of text", "function myFunction()"],
-                ["HyperText Markup Language", "<css>", "To set the font of text", "function = myFunction()"],
-                ["<p>", "style=''", "To control how an element is displayed on the web page", "function => myFunction()"],
-                ["#myDiv", ".myDiv", "$('#myDiv')", "document.querySelector('#myDiv')"],
-                ["To execute a block of code a set number of times", "To execute a block of code while a condition is true", "To execute a block of code when an event occurs", "To execute a block of code in reverse order"],
-                ["Number", "String", "Array", "Boolean"],
-                ["//", "/* */", "*/", "'''"],
-                ["p", "#myDiv", ".myDiv", "$('#myDiv')"],
-                ["<!-- This is a comment -->", "<comment>", "/* This is a comment */", "// This is a comment"]
-            ]
-            };
-            
-            
-            
-            // Event listener for start button click
-            startBtn.addEventListener("click", function () {
-
-            // Hide Start button
-            startBtn.classList.add("inv");
-
-
-        // Show questions and options
-        questions.classList.remove("inv");
-        optionsContainerContainer.classList.remove("inv");
-
-        //This will show questions and answers
-        questions.textContent = quizData.questions[counter];
-        optionA.textContent = quizData.optionsContainer[counter][0];
-        optionB.textContent = quizData.optionsContainer[counter][1];
-        optionC.textContent = quizData.optionsContainer[counter][2];
-        optionD.textContent = quizData.optionsContainer[counter][3];
-
-        //Increment counter
-        counter++;
-    });
-
-
-
-             // Event listener for option selection
-            optionsContainer.addEventListener("click", optionsContainerSelected);
-
-            //this function will be used when the user selects an answer of the test
-            function optionsContainerSelected(e) {
-                const selectedOption = e.target;
-                const selectedAnswer = selectedOption.dataset["optionid"];
-              
-                if (selectedAnswer == quizData.correctAnswers[counter]) {
-                  score += 10; // update the score
-                  selectedOption.parentElement.classList.add("correct");
-                }
-                 else {
-                  selectedOption.parentElement.classList.add("incorrect");
-                }
-              
+            // Quiz quizData
+            const quizData = [
+              {
+                question: "What does HTML stand for?",
+                choices: ["Hyperlinks and Text Markup Language", "Home Tool Markup Language", "Hyper Text Markup Language", "Hyperlinking Text Markup Language"],
+                answer: "Hyper Text Markup Language"
+              },
+              {
+                question: "What is the correct way to apply CSS to an HTML element?",
+                choices: ["inline", "internal", "external", "all of the above"],
+                answer: "all of the above"
+              },
+              {
+                question: "What is the purpose of the display property in CSS?",
+                choices: ["to set the font size", "to set the background color", "to specify how an element is displayed", "to align text"],
+                answer: "to specify how an element is displayed"
+              },
+              {
+                question: "What is the correct syntax for a JavaScript function?",
+                choices: ["function = myFunction()", "function:myFunction()", "function myFunction()", "myFunction():function"],
+                answer: "function myFunction()"
+              },
+              {
+                question: "What is the correct way to select an element with the ID 'myDiv' in JavaScript?",
+                choices: ["document.getElementByName('myDiv')", "document.getElement('myDiv')", "document.getElementById('myDiv')", "document.select('myDiv')"],
+                answer: "document.getElementById('myDiv')"
+              },
+              {
+                question: "What is the purpose of the for loop in JavaScript?",
+                choices: ["to execute code only if a certain condition is met", "to execute code repeatedly while a certain condition is true", "to execute code a specific number of times", "to execute code randomly"],
+                answer: "to execute code repeatedly while a certain condition is true"
+              },
+              {
+                question: "Which of the following is not a JavaScript data type?",
+                choices: ["number", "string", "boolean", "table"],
+                answer: "table"
+              },
+              {
+                question: "How do you place a comment in JavaScript?",
+                choices: ["// This is a comment", "<!-- This is a comment -->", "/* This is a comment */", "both // and /* are correct"],
+                answer: "// This is a comment"
+              },
+              {
+                question: "Which of the following is not a valid CSS selector?",
+                choices: [":hover", ":before", ":after", ":between"],
+                answer: ":between"
+              },
+              {
+                question: "What is the correct way to add a comment in HTML?",
+                choices: ["<!-- This is a comment -->", "// This is a comment", "/* This is a comment */", "<comment>This is a comment</comment>"],
+                answer: "<!-- This is a comment -->"
               }
-                    
-            // Timer function
-            startTimer();
-
-            function startTimer() {
-                let timerDisplay = document.getElementById("timer");
-                let timerInterval = setInterval(function() {
-                if (timeLeft > 0) {
-                    timeLeft--;
-                    timerDisplay.innerHTML = "Time remaining: " + timeLeft + " seconds";
-                } else {
-                    clearInterval(timerInterval);
-                    submitQuiz();
-                }
-                }, 1000);
-            }
+            ];
             
-
-
-            // Submit quiz function
-            function submitQuiz() {
-                // Stop the timer
-                clearInterval(timerInterval);
-                
-                // Hide the questions and options
-                questions.classList.add("inv");
-                optionsContainerContainer.classList.add("inv");
-                
-                // Show the final score
-                finalScore();
-            }
-
-
-    //Show  final score
-function finalScore() {
-    // Create element for final score
-    let finalScoreDisplay = document.createElement("p");
-    finalScoreDisplay.textContent = "Your final score is " + score + " out of 100";
             
-
-// Create button for highscore
-let highscoreBtn = document.createElement("button");
-highscoreBtn.textContent = "View High Scores";
-highscoreBtn.setAttribute("id", "highscoreBtn");
-
-
-//Add event lister for highscore
-
-highscoreBtn.addEventListener("click", function() {
-    // Hide score page and show high score table
-    scorePage.classList.add("inv");
-    highscoreTable.classList.remove("inv");
+  // Get references to the HTML elements
+  questionContainer.innerText = quizData[questionIndex].question;
+const optionButtons = document.querySelectorAll('#optionsContainer button');
+optionButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    const selectedOption = button.dataset.optionid;
+    checkAnswer(selectedOption);
+  });
 });
 
- // Append final score and button to score page
-        scorePage.appendChild(finalScoreDisplay);
-        scorePage.appendChild(highscoreBtn);
-        }
+// Function to display the quiz question and options
+function displayQuestion(questionIndex) {
+  // Set the text of the question container to the current question
+  questionContainer.innerText = quizData.optionsContainer[questionIndex];
 
-
-            // gets the value of the user's input
-            let initialsInput = document.querySelector("#initialsInput");
-            if (initialsInput.value.trim() === "") {
-                return;
-            }
-
-            // Adds the new initials and score to the scoreboard
-            let newScore = {
-                initials: initialsInput.value.trim(),
-                score: score
-            };
-            allArrays.push(newScore);
-            localStorage.setItem("scores", JSON.stringify(allArrays));
-            initialForm.classList.add("inv");
-
-            // Sorts the scoreboard in descending order
-            allArrays.sort((a, b) => {
-                return b.score - a.score;
-            });
-
-
-// Define a single event listener for all answer options
-function answerSelected() {
-    // Determine which option was selected
-    let selectedOption = this.textContent;
-
-    // Check if the selected option is correct
-    if (selectedOption === quizData.correctAnswers[currentQuestionIndex]) {
-        // Answer is correct
-        score += 10;
-        currentScore.textContent = score;
-    } else {
-        // Answer is incorrect
-        score -= 10;
-        currentScore.textContent = score;
-    }
-
+  // Set the text of the option buttons to the current options
+  for (let i = 0; i < optionButtons.length; i++) {
+    optionButtons[i].innerText = quizData.optionsContainer[questionIndex][i];
+  }
 }
 
-// Generate question function
-function generateQuestion() {
-// Check if there are still questions left
-if (counter >= quizData.questions.length) {
-// Quiz is over, show final score
-submitQuiz();
-return;
+// Call the displayQuestion function to display the first question
+// Function to display the quiz question and options
+function displayQuestion(questionIndex) {
+  const currentQuestion = quizData[questionIndex];
+  // Set the text of the question container to the current question
+  quizData[questionIndex].question.innerText = currentQuestion.question;
+
+  // Set the text of the option buttons to the current options
+  for (let i = 0; i < optionButtons.length; i++) {
+    const optionButton = optionButtons[i];
+    const optionText = currentQuestion.choices[i];
+    optionButton.innerText = optionText;
+  }
 }
-// Start the quiz
-function startQuiz() {
-// Hide the start button
-startBtn.classList.add("inv");
-                                
- // SEt the timer
-startTimer();
-// Display timer
-let timerDisplay = document.createElement("p");
-timerDisplay.setAttribute("id", "timer");
-timerDisplay.textContent = "Time remaining: " + timeLeft + " seconds";
-scoreboard.appendChild(timerDisplay);
+
+          
+
+//This will check if the answers are correct
+function checkAnswer(selectedOption) {
+  if (quizData[currentQuestion].answer === quizData[currentQuestion].choices[selectedOption]) {
+    score += 10;
+  } else {
+    score -= 10;
+  }
+  currentQuestion++;
+  if (currentQuestion < quizData.length) {
+    displayQuestion(currentQuestion);
+  } else {
+    endQuiz();
+  }
+}
+
+document.getElementById("submit-btn").addEventListener("click", checkAnswer);
 
 
-        // Start timer
-        startTimer();
-        
-        // Display first question
-        generateQuestion();
-        }
-        
-        // Event listener for high score button
-        document.querySelector("#highscoreBtn").addEventListener("click", function() {
-            // Hide high score table and show score page
-            highscoreTable.classList.add("inv");
-            scorePage.classList.remove("inv");
-            });
-                      
-// Attach the answerSelected event listener to all answer options
-optionA.addEventListener("click", answerSelected);
-optionB.addEventListener("click", answerSelected);
-optionC.addEventListener("click", answerSelected);
-optionD.addEventListener("click", answerSelected);
+
+// Event listener for start button click
+const startBtn = document.querySelector('#startbtn');
+startBtn.addEventListener("click", function () {
+  // Hide Start button
+  startBtn.classList.add("inv");
+  
+  // Show questions and options
+  function endQuiz() {
+    clearInterval(timerInterval);
+    questionContainer.classList.add('inv');
+    optionButtons.forEach((button) => {
+      button.classList.add('inv');
+    });
+    scorePage.classList.remove('inv');
+    currentScore.textContent = `Your score: ${score}`;
+    const highScores = JSON.parse(localStorage.getItem('highScores')) || [];
+    const name = prompt('Please enter your name:');
+    highScores.push({ name, score });
+    localStorage.setItem('highScores', JSON.stringify(highScores));
+    highScores.sort((a, b) => b.score - a.score);
+    const tableBody = document.querySelector('#highscoreTable tbody');
+    tableBody.innerHTML = '';
+    highScores.forEach((item, index) => {
+      const row = tableBody.insertRow();
+      const rankCell = row.insertCell(0);
+      const nameCell = row.insertCell(1);
+      const scoreCell = row.insertCell(2);
+      rankCell.textContent = index + 1;
+      nameCell.textContent = item.name;
+      scoreCell.textContent = item.score;
+    });
+  }
+  
 
 
-            
+
+  
+// Timer element
+
+let timer;
+
+let timeLimit = 600; // this will give the user 10 minutes
+
+// Define a function to update the timer display
+function updateTimer() {
+  // Calculate the minutes and seconds remaining
+  var minutes = Math.floor(timeLimit / 60);
+  var seconds = timeLimit % 60;
+
+  // Display the time remaining in the format "mm:ss"
+  console.log(("0" + minutes).slice(-2) + ":" + ("0" + seconds).slice(-2));
+
+  // Decrement the time limit
+  timeLimit--;
+
+  // If the time limit has been reached, stop the timer
+  if (timeLimit < 0) {
+    clearInterval(intervalId);
+    console.log("Time's up!");
+  }
+}
+
+// Call the updateTimer function every second (1000 milliseconds)
+var intervalId = setInterval(updateTimer, 1000);
 
 
-                //Creates the scoreboard
-                for (let i = 0; i < allArrays.length; i++) {
-                    let newLi = document.createElement("li");
-                    newLi.textContent = allArrays[i].initials + " - " + allArrays[i].score;
-                    scoreBoard.appendChild(newLi);
-                }
-            highscoreTable.classList.remove("inv");
+//Event listerns to restart or end the test
+const restartBtn = document.getElementById("restart-btn");
+const exitBtn = document.getElementById("exit-btn");
+
+restartBtn.addEventListener("click", function() {
+  location.reload();
+});
+
+exitBtn.addEventListener("click", function() {
+  window.close();
+});
 
 
-            //This function will show the Highscore table once the user clicks on the 'View Highscores' button
-            function showScoreboard() {
-                start.classList.add("inv");
-                optionsContainerContainer.classList.add("inv");
-                scorePage.classList.add("inv");
-                finalScore.classList.add("inv");
-                scoreBoard.classList.remove("inv");
-                initialForm.classList.add("inv");
-                currentScore.classList.add("inv");
-                totalScore.classList.add("inv");
-                highscoreTable.classList.add("inv");
-            
-                // clear existing scores from scoreboard
-                scoreBoard.innerHTML = "";
-            
-                allArrays = JSON.parse(localStorage.getItem("scores")) || [];
-                for (let i = 0; i < allArrays.length; i++) {
-                let newLi = document.createElement("li");
-                newLi.textContent = allArrays[i].initials + " - " + allArrays[i].score;
-                scoreBoard.appendChild(newLi);
-                }
-            }
 
 
-            //Loads the scores from local storage once the page is loaded
-            window.onload = function() {
-                allArrays = JSON.parse(localStorage.getItem("scores")) || [];
-                };
-                
-                //This code will show the score each time the user clicks on an option
-                optionsContainer.addEventListener("click", function() {
-                currentScore.textContent = "Current Score: " + score;
-                });
-                
-                //This code will start the timer once the test is started
-                let timeLeft = 60;
-                function startTimer() {
-                const timerDisplay = document.getElementById("time");
-                const timerInterval = setInterval(function() {
-                if (timeLeft > 0) {
-                timeLeft--;
-                timerDisplay.textContent = "Time: " + timeLeft;
-                } else {
-                clearInterval(timerInterval);
-                finalScore();
-                totalScore.textContent = "Time's Up! 😢";
-                }
-                }, 1000);
-                }
-                
-                //This code will start the timer once the user starts the test
-                startBtn.addEventListener("click", startTimer);
+//High score table
+const saveHighscore = () => {
+    const initials = document.querySelector("#initialsInput").value;
+    const highscores = JSON.parse(localStorage.getItem("highscores")) || [];
+    highscores.push({ initials, score });
+    localStorage.setItem("highscores", JSON.stringify(highscores));
+  };
+  
+  const showHighscoreTable = () => {
+    const highscores = JSON.parse(localStorage.getItem("highscores")) || [];
+    const tbody = highscoreTable.querySelector("tbody");
+    tbody.innerHTML = "";
+    highscores
+      .sort((a, b) => b.score - a.score)
+      .forEach((highscore, index) => {
+        const row = document.createElement("tr");
+        const rank = document.createElement("td");
+        rank.textContent = index + 1;
+        const initials = document.createElement("td");
+        initials.textContent = highscore.initials;
+        const score = document.createElement("td");
+        score.textContent = highscore.score;
+        row.appendChild(rank);
+        row.appendChild(initials);
+        row.appendChild(score);
+        tbody.appendChild(row);
+      });
+    highscoreTable.classList.remove("inv");
+  };

@@ -91,4 +91,12 @@
         padding: 10px;
         cursor: pointer;
     }  
-    
+
+    #end-quiz {
+        text-align: center;
+        margin-top: 50px;
+      }
+      
+      #final-score {
+        font-weight: bold;
+      }
